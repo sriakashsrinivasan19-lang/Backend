@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="show">
+        
+    </div>
+    <script>
+        // Task 1 — Pass or Fail
+        // Create a Promise to check student marks.
+        const toFind = new Promise((resolve,reject)=>{
+           
+         let studentMark = 75;
+         if(studentMark>35){
+            resolve("Student Passed");
+            
+         }else{
+            reject("Student Failed");
+            
+         }
+            
+        })
+
+        
+           toFind.then((result)=>{
+                console.log(result);
+                
+            }).catch((error)=>{
+                console.log(error);
+                
+            })
+
+        // Task 2 — Login Validation
+        // Create a Promise to validate username and password.
+
+            const toValidate = new Promise((resolve,reject)=>{
+                let userName = "sriakash";
+                let password = 1234;
+                if(userName === "sriakash" && password === 1234){
+                    setTimeout(() => {
+                        resolve("Login Successful");
+                    }, 2000);
+                    
+                }else{
+                    setTimeout(() => {
+                        reject( "Invalid Credentials");
+                    }, 2000);
+                    
+                }
+            })
+
+            toValidate.then((ifTrue)=>{
+                console.log(ifTrue);
+            }).catch((ifFalse)=>{
+                console.log(ifFalse);
+                
+            })
+           
+        // Task 3 — Product Price Calculation
+        // Create a Promise that calculates a 10% discount.
+
+            const calculation = new Promise((resolve,reject)=>{
+                let price = 5000;
+                
+                if(price>=0){
+                    let discount = price/100*10;
+                    let discountPrice = price - discount;
+
+                    resolve(discountPrice);
+                }else{
+                    reject("discount not valid")
+                }
+            })
+
+            calculation.then((result)=>{
+                console.log(result);
+                
+            }).catch((error)=>{
+                console.log(error);
+                
+            })
+
+        // Task 6 — Fetch Users Using .then()
+
+            const result = document.getElementById("show");
+            const isApi = fetch("https://jsonplaceholder.typicode.com/users")
+            .then((response)=>{
+        
+            if (!response.ok) {
+                throw new Error("HTTP Error: " + response.status);
+            }
+
+            return response.json();
+
+            }).then((data)=>{
+        
+            data.forEach((user)=>{
+                result.innerHTML +=`
+                <div>
+                    <h3>${user.name}</h3>
+                  
+                </div>
+            `
+            })
+        
+            }).catch((error)=>{
+                console.log(error);
+        
+            })
+
+        // Task 7 — Fetch Users Using Async/Await
+        // Use the same API as Task 6.
+                 const send = document.getElementById("show");
+                const display = async ()=>{
+
+                try{
+                    let api = await fetch("https://jsonplaceholder.typicode.com/users")
+                    if(!api.ok){
+                        throw new Error("HTTP Error: " + api.status);
+                    }
+                    const data = await api.json();
+
+                    data.forEach((user)=>{
+                        send.innerHTML += `
+                        <div>
+                            <h2>${user.name}<h2/>
+                        <div/>
+                        `
+                    })
+                }
+                catch (error) {
+                    console.log(error);
+                    send.innerHTML = `<p>Failed to fetch users.</p>`;
+                }
+
+            } 
+            display();
+
+        // Task 8 — Fetch Single Product
+
+    const productBox = document.getElementById("show");
+    const loadProduct = async () => {
+
+    try {
+        const serverResponse = await fetch(
+            "https://dummyjson.com/products/1"
+        );
+
+        if (!serverResponse.ok) {
+            throw new Error(
+                "API Error: " + serverResponse.status
+            );
+        }
+
+        const productInfo = await serverResponse.json();
+
+        productBox.innerHTML = `
+            <div>
+                <h2>${productInfo.title}</h2>
+                <p>Price: $${productInfo.price}</p>
+                <p>Category: ${productInfo.category}</p>
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.log(error);
+        productBox.innerHTML = `
+            <p>Failed to load product.</p>
+        `;
+    }
+};
+
+loadProduct();
+
+           
+    </script>
+</body>
+</html>
